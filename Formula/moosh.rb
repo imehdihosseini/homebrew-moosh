@@ -1,3 +1,8 @@
+# Homebrew formula for moosh.
+#
+# The version, url and sha256 lines below are rewritten automatically by
+# .github/workflows/release.yml every time a tag is pushed. Keep them on one
+# line each or that rewrite will stop matching.
 class Moosh < Formula
   desc "Moosh — MCP server that lets an AI agent control macOS"
   homepage "https://osx.agani.app"
@@ -9,22 +14,27 @@ class Moosh < Formula
   depends_on macos: :ventura
 
   def install
-    bin.install "osx-mcp"
+    if File.exist?("moosh")
+      bin.install "moosh"
+    else
+      bin.install "osx-mcp" => "moosh"
+    end
   end
 
   def caveats
     <<~EOS
-      Moosh needs Accessibility permission before it can do anything, and
-      Screen Recording permission for the Screenshot tool. Grant both to the
-      app that starts the server (your terminal, Claude, Cursor, or ChatGPT)
-      in System Settings → Privacy & Security.
+      moosh needs Accessibility permission before it can do anything, and
+      Screen Recording permission for the Screenshot tool. Grant both to the app
+      that starts the server (your terminal, Claude, Cursor or ChatGPT) in
+      System Settings, then Privacy & Security.
 
-      The command is osx-mcp. Point your MCP client at:
-        #{opt_bin}/osx-mcp
+      Point your MCP client at the full path:
+        #{opt_bin}/moosh
     EOS
   end
 
   test do
-    assert_predicate bin/"osx-mcp", :executable?
+    assert_predicate bin/"moosh", :executable?
+    assert_match "Architectures in the fat file", shell_output("lipo -info #{bin}/moosh")
   end
 end
