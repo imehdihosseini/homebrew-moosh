@@ -5,20 +5,16 @@
 # line each or that rewrite will stop matching.
 class Moosh < Formula
   desc "Moosh — MCP server that lets an AI agent control macOS"
-  homepage "https://osx.agani.app"
+  homepage "https://moosh.agani.app"
   version "0.3.0"
-  url "https://osx.agani.app/download/osx-mcp-0.3.0-macos-universal.tar.gz"
-  sha256 "7640cb54185422e69837afc94dc8d5ff474c676bb557d9e03b295b6d863d119f"
+  url "https://moosh.agani.app/download/moosh-0.3.0-macos-universal.tar.gz"
+  sha256 "ade0abd42bfadaa9605da7874d46bef208e5fdada9e90ed82a43b1d48ce62879"
   license "MIT"
 
   depends_on macos: :ventura
 
   def install
-    if File.exist?("moosh")
-      bin.install "moosh"
-    else
-      bin.install "osx-mcp" => "moosh"
-    end
+    bin.install "moosh"
   end
 
   def caveats
